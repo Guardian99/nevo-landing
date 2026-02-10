@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nevo — India's First Clear Protein Energy Drink</title>
+    <meta name="description" content="16g protein. 200mg caffeine. Crystal clear. The energy drink that fuels your muscle, not just your crash.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #161616;
+            --text-primary: #f0f0f0;
+            --text-secondary: #8a8a8a;
+            --accent: #00e87b;
+            --accent-dim: rgba(0, 232, 123, 0.1);
+            --accent-glow: rgba(0, 232, 123, 0.15);
+            --border: #1e1e1e;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Noise overlay for texture */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(20px);
+            background: rgba(10, 10, 10, 0.8);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.4rem;
+            letter-spacing: 0.15em;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-cta {
+            padding: 0.6rem 1.6rem;
+            background: var(--accent);
+            color: #0a0a0a;
+            border: none;
+            border-radius: 100px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-cta:hover {
+            box-shadow: 0 0 30px var(--accent-glow);
+            transform: translateY(-1px);
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+        }
+
+        .hero-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4rem;
+            max-width: 1100px;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-text {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .hero-tag {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards 0.2s;
+        }
+
+        .hero-title {
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards 0.4s;
+        }
+
+        .hero-title em {
+            font-style: normal;
+            color: var(--accent);
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards 0.6s;
+        }
+
+        .hero-price {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.1em;
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards 0.7s;
+        }
+
+        .hero-price strong {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards 0.8s;
+        }
+
+        .hero-form {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .hero-form input {
+            flex: 1;
+            padding: 0.9rem 1.2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .hero-form input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .hero-form input:focus {
+            border-color: var(--accent);
+        }
+
+        .hero-form button {
+            padding: 0.9rem 2rem;
+            background: var(--accent);
+            color: #0a0a0a;
+            border: none;
+            border-radius: 100px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .hero-form button:hover {
+            box-shadow: 0 0 30px var(--accent-glow);
+            transform: translateY(-1px);
+        }
+
+        .hero-note {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            padding-left: 1.2rem;
+        }
+
+        .hero-image {
+            flex: 0 0 auto;
+            position: relative;
+            opacity: 0;
+            animation: fadeIn 1.2s ease forwards 0.5s;
+        }
+
+        .hero-image img {
+            height: 520px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 20px 60px rgba(0, 0, 0, 0.5));
+            transition: transform 0.6s ease;
+        }
+
+        .hero-image:hover img {
+            transform: translateY(-8px);
+        }
+
+        /* Stats bar */
+        .stats {
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 3rem 2rem;
+            background: var(--bg-secondary);
+        }
+
+        .stats-grid {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 1.5rem;
+        }
+
+        .stat-number {
+            font-family: 'Space Mono', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-sublabel {
+            font-size: 1rem;
+            color: var(--text-primary);
+            font-weight: 500;
+            margin-top: 0.25rem;
+        }
+
+        /* Features */
+        .features {
+            padding: 6rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-tag {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 4rem;
+            line-height: 1.2;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(0, 232, 123, 0.2);
+            transform: translateY(-4px);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .feature-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Comparison */
+        .comparison {
+            padding: 6rem 2rem;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-inner {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .comparison-table {
+            width: 100%;
+            margin-top: 3rem;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+
+        .comparison-table th.highlight {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .comparison-table td:first-child {
+            text-align: left;
+            color: var(--text-secondary);
+        }
+
+        .comparison-table td.highlight {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 8rem 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .cta-section .hero-glow {
+            width: 400px;
+            height: 400px;
+        }
+
+        .cta-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-weight: 300;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-form {
+            display: flex;
+            gap: 0.5rem;
+            max-width: 480px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-form input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .cta-form input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .cta-form input:focus {
+            border-color: var(--accent);
+        }
+
+        .cta-form button {
+            padding: 1rem 2.5rem;
+            background: var(--accent);
+            color: #0a0a0a;
+            border: none;
+            border-radius: 100px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .cta-form button:hover {
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        /* Success state */
+        .form-success {
+            display: none;
+            color: var(--accent);
+            font-weight: 500;
+            font-size: 1rem;
+            padding: 1rem;
+        }
+
+        .form-success.show {
+            display: block;
+        }
+
+        .form-wrapper.submitted .hero-form,
+        .form-wrapper.submitted .cta-form {
+            display: none;
+        }
+
+        .form-wrapper.submitted .form-success {
+            display: block;
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem 1.5rem;
+            }
+
+            .hero {
+                padding: 7rem 1.5rem 3rem;
+            }
+
+            .hero-content {
+                flex-direction: column-reverse;
+                text-align: center;
+                gap: 2.5rem;
+            }
+
+            .hero-text {
+                max-width: 100%;
+            }
+
+            .hero-image img {
+                height: 340px;
+            }
+
+            .hero-form {
+                flex-direction: column;
+            }
+
+            .hero-form button {
+                padding: 1rem;
+            }
+
+            .hero-note {
+                padding-left: 0;
+                text-align: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .stat-item {
+                padding: 1.25rem;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .stat-item:last-child {
+                border-bottom: none;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-form {
+                flex-direction: column;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Nav -->
+    <nav>
+        <a href="#" class="logo">NEVO<span>.</span></a>
+        <a href="#signup" class="nav-cta">Get Early Access</a>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-glow"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="hero-tag">India's first clear protein energy drink</div>
+                <h1 class="hero-title">Don't just get wings.<br>Get <em>muscle</em>.</h1>
+                <p class="hero-subtitle">A crystal-clear sparkling drink with 16g protein and 200mg caffeine. All the energy. All the recovery. Zero compromise.</p>
+                <div class="hero-price">Starting at <strong>₹99</strong> / can</div>
+                <div class="hero-cta-group">
+                    <div class="form-wrapper" id="heroFormWrapper">
+                        <form class="hero-form" id="heroForm">
+                            <input type="email" placeholder="Your email" required>
+                            <button type="submit">Join Waitlist</button>
+                        </form>
+                        <div class="form-success">You're in. We'll notify you at launch.</div>
+                    </div>
+                    <div class="hero-note">Join 0 others waiting for launch. No spam.</div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="can-mockup.png" alt="Nevo - Sparkling Protein Energy Drink - Green Apple">
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">16g</div>
+                <div class="stat-label">Complete Protein</div>
+                <div class="stat-sublabel">100% Vegetarian</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">200mg</div>
+                <div class="stat-label">Caffeine</div>
+                <div class="stat-sublabel">Clean energy. No crash.</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">0g</div>
+                <div class="stat-label">Sugar</div>
+                <div class="stat-sublabel">Crystal clear soda</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="section-tag">Why Nevo</div>
+        <h2 class="section-title">Energy drinks grew up.</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <div class="feature-label">Energy</div>
+                <div class="feature-title">Sharp focus</div>
+                <p class="feature-desc">200mg caffeine — the same kick as your go-to energy drink, without the sugar crash that follows.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💪</div>
+                <div class="feature-label">Recovery</div>
+                <div class="feature-title">Fuel muscle</div>
+                <p class="feature-desc">16g of complete vegetarian protein. More than a glass of milk, in a can that tastes like soda.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">✨</div>
+                <div class="feature-label">Clean</div>
+                <div class="feature-title">Like soda</div>
+                <p class="feature-desc">No milkiness. No chalkiness. Crystal clear, sparkling, and actually refreshing. See for yourself.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison -->
+    <section class="comparison">
+        <div class="comparison-inner">
+            <div class="section-tag">The numbers</div>
+            <h2 class="section-title">See the difference.</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th class="highlight">Nevo</th>
+                        <th>Red Bull</th>
+                        <th>Protein Shake</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Protein</td>
+                        <td class="highlight">16g</td>
+                        <td>0g</td>
+                        <td>20g</td>
+                    </tr>
+                    <tr>
+                        <td>Caffeine</td>
+                        <td class="highlight">200mg</td>
+                        <td>80mg</td>
+                        <td>0mg</td>
+                    </tr>
+                    <tr>
+                        <td>Sugar</td>
+                        <td class="highlight">0g</td>
+                        <td>27g</td>
+                        <td>12g</td>
+                    </tr>
+                    <tr>
+                        <td>Calories</td>
+                        <td class="highlight">~70</td>
+                        <td>110</td>
+                        <td>200+</td>
+                    </tr>
+                    <tr>
+                        <td>Clear & sparkling</td>
+                        <td class="highlight">✓</td>
+                        <td>✓</td>
+                        <td>✗</td>
+                    </tr>
+                    <tr>
+                        <td>100% Vegetarian</td>
+                        <td class="highlight">✓</td>
+                        <td>✓</td>
+                        <td>Often not</td>
+                    </tr>
+                    <tr>
+                        <td>Price</td>
+                        <td class="highlight">₹99</td>
+                        <td>₹125</td>
+                        <td>₹150+</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section" id="signup">
+        <div class="hero-glow"></div>
+        <div class="section-tag">Early access</div>
+        <h2 class="cta-title">Be first to taste Nevo.</h2>
+        <p class="cta-subtitle">Limited first batch. Sign up and we'll let you know when it's ready.</p>
+        <div class="form-wrapper" id="ctaFormWrapper">
+            <form class="cta-form" id="ctaForm">
+                <input type="email" placeholder="Your email" required>
+                <button type="submit">Join Waitlist</button>
+            </form>
+            <div class="form-success">You're in. We'll notify you at launch.</div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Nevo. Built in India. <a href="mailto:hello@nevo.ltd">hello@nevo.ltd</a></p>
+    </footer>
+
+    <script>
+        // Simple form handling — replace with your email service (Mailchimp, Buttondown, Google Sheets, etc.)
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = this.querySelector('input[type="email"]').value;
+                const wrapper = this.closest('.form-wrapper');
+
+                // TODO: Send email to your backend/email service
+                // For now, just store in localStorage and show success
+                const emails = JSON.parse(localStorage.getItem('nevo_waitlist') || '[]');
+                emails.push({ email, date: new Date().toISOString() });
+                localStorage.setItem('nevo_waitlist', JSON.stringify(emails));
+
+                // Show success state
+                wrapper.classList.add('submitted');
+
+                // Update counter
+                const count = emails.length;
+                const note = document.querySelector('.hero-note');
+                if (note && count > 0) {
+                    note.textContent = `Join ${count} other${count > 1 ? 's' : ''} waiting for launch. No spam.`;
+                }
+
+                console.log('Waitlist signup:', email);
+            });
+        });
+
+        // Smooth scroll for CTA
+        document.querySelectorAll('a[href="#signup"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector('#signup').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Intersection Observer for scroll animations
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card, .stat-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
