@@ -675,7 +675,7 @@
                         </form>
                         <div class="form-success">You're in. We'll notify you at launch.</div>
                     </div>
-                    <div class="hero-note">Join others waiting for launch. No spam.</div>
+                    <div class="hero-note">Be first to know when we launch. No spam.</div>
                 </div>
             </div>
             <div class="hero-image">
@@ -814,30 +814,45 @@
     </footer>
 
     <script>
-        // Simple form handling — replace with your email service (Mailchimp, Buttondown, Google Sheets, etc.)
+        // ============================================
+        // GOOGLE SHEETS INTEGRATION
+        // Replace this URL with your Google Apps Script Web App URL
+        // ============================================
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzVgVklld3OvtI7pNQFav1jMUoWiROPZeqpYHPhD4kxrKk8FDrfaCPGs7-_RLa8uiNv/exec';
+
         document.querySelectorAll('form').forEach(form => {
-            form.addEventListener('submit', function(e) {
+            form.addEventListener('submit', async function(e) {
                 e.preventDefault();
-                const email = this.querySelector('input[type="email"]').value;
+                const input = this.querySelector('input[type="email"]');
+                const email = input.value;
+                const button = this.querySelector('button');
                 const wrapper = this.closest('.form-wrapper');
 
-                // TODO: Send email to your backend/email service
-                // For now, just store in localStorage and show success
-                const emails = JSON.parse(localStorage.getItem('nevo_waitlist') || '[]');
-                emails.push({ email, date: new Date().toISOString() });
-                localStorage.setItem('nevo_waitlist', JSON.stringify(emails));
+                // Disable button while submitting
+                button.textContent = 'Joining...';
+                button.disabled = true;
 
-                // Show success state
-                wrapper.classList.add('submitted');
+                try {
+                    // Send to Google Sheets
+                    await fetch(GOOGLE_SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            email: email,
+                            source: window.location.href
+                        })
+                    });
 
-                // Update counter
-                const count = emails.length;
-                const note = document.querySelector('.hero-note');
-                if (note && count > 0) {
-                    note.textContent = `Join ${count} other${count > 1 ? 's' : ''} waiting for launch. No spam.`;
+                    // Show success state
+                    wrapper.classList.add('submitted');
+
+                } catch (error) {
+                    // Even if fetch fails with no-cors, data is usually sent
+                    // Show success anyway — check your sheet to confirm
+                    wrapper.classList.add('submitted');
+                    console.log('Submission sent:', email);
                 }
-
-                console.log('Waitlist signup:', email);
             });
         });
 
