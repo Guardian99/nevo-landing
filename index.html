@@ -407,44 +407,26 @@
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzVgVklld3OvtI7pNQFav1jMUoWiROPZeqpYHPhD4kxrKk8FDrfaCPGs7-_RLa8uiNv/exec';
 
         document.querySelectorAll('form').forEach(form => {
-            form.addEventListener('submit', async function(e) {
+            form.addEventListener('submit', function(e) {
                 e.preventDefault();
-                const input = this.querySelector('input[type="email"]');
-                const email = input.value;
-                const button = this.querySelector('button');
-
+                var input = this.querySelector('input[type="email"]');
+                var email = input.value;
+                var button = this.querySelector('button');
                 button.textContent = 'Joining...';
                 button.disabled = true;
-
-                try {
-                    await fetch(GOOGLE_SCRIPT_URL, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            email: email,
-                            source: window.location.href
-                        })
-                    });
-                    setTimeout(function() {
-                        window.location.href = '/thanks.html';
-                    }, 500);
-                } catch (error) {
-                    console.log('Submission sent:', email);
-                    setTimeout(function() {
-                        window.location.href = '/thanks.html';
-                    }, 500);
-                }
+                var img = new Image();
+                img.src = GOOGLE_SCRIPT_URL + '?email=' + encodeURIComponent(email) + '&source=' + encodeURIComponent(window.location.href);
+                setTimeout(function() {
+                    window.location.href = '/thanks.html';
+                }, 1000);
             });
         });
-
         document.querySelectorAll('a[href="#signup"]').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 document.querySelector('#signup').scrollIntoView({ behavior: 'smooth' });
             });
         });
-
         var observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
         var observer = new IntersectionObserver(function(entries) {
             entries.forEach(function(entry) {
@@ -454,7 +436,6 @@
                 }
             });
         }, observerOptions);
-
         document.querySelectorAll('.feature-card, .stat-item').forEach(function(el) {
             el.style.opacity = '0';
             el.style.transform = 'translateY(20px)';
